@@ -7,10 +7,9 @@ html_page = res.content
 soup = BeautifulSoup(html_page, 'html.parser')
 html_text = soup.find_all(text=True)
 
-# print(output)
 f = open("html_text.txt", "w", encoding="utf-8")         # Creating html_text.txt File
 
 for line in html_text:
 	f.write(line)
 
-f.close()
+f.close() 
