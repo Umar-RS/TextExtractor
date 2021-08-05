@@ -15,6 +15,8 @@ def check_prefix():# if user fails to include the protocol prefix for the inputt
     prefix = "https://" 
     if prefix not in args.url:
         return f"{prefix}{args.url}"
+    else:
+        return args.url
 
 def output_file():
     global output
