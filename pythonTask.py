@@ -4,36 +4,10 @@ import argparse
 import requests
 from bs4 import BeautifulSoup
 
-def create_parser():# create parser and add the argument "url" which is parsed through to the script
-    parser = argparse.ArgumentParser()  
-    parser.add_argument("url")
-    global args
-    args = parser.parse_args()
-    return args
-    
-def check_prefix():# if user fails to include the protocol prefix for the inputted url, it will be added
-    prefix = "https://" 
-    if prefix not in args.url:
-        return f"{prefix}{args.url}"
-    else:
-        return args.url
-
-def output_file():
-    global output
-    output = ''
-    file_name = input("Save file as: ") # user can choose what to call their file and this is where the desired text content will be stored
-    f = open(f"{file_name}.txt", "w", encoding="utf-8") 
-    for line in html_text: # loops through the entire html_text to find all inner text that dont belong to the above "blacklisted" tags and then writes it to the file
-        if line.parent.name not in dont_include:
-            output += '{} '.format(line)
-
-    f.write(output)
-
-    f.close()
-
-
 def main():
-    global html_text, dont_include
+    
+    global html_text, dont_include, args # Global variables will be used in sub-functions too
+
     args = create_parser()
     args.url = check_prefix()
 
@@ -59,5 +33,30 @@ def main():
         output_file()
     else:
         print('Invalid URL')
+
+def create_parser():# create parser and add the argument "url" which is parsed through to the script
+    parser = argparse.ArgumentParser()  
+    parser.add_argument("url")
+    args = parser.parse_args()
+    return args
+    
+def check_prefix():# if user fails to include the protocol prefix for the inputted url, it will be added
+    prefix = "https://" 
+    if prefix not in args.url:
+        return f"{prefix}{args.url}"
+    else:
+        return args.url
+
+def output_file():
+    output = ''
+    file_name = input("Save file as: ") # user can choose what to call their file and this is where the desired text content will be stored
+    f = open(f"{file_name}.txt", "w", encoding="utf-8") 
+    for line in html_text: # loops through the entire html_text to find all inner text that dont belong to the above "blacklisted" tags and then writes it to the file
+        if line.parent.name not in dont_include:
+            output += '{} '.format(line)
+
+    f.write(output)
+
+    f.close()
 
 if __name__ == '__main__': main()
