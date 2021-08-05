@@ -1,14 +1,22 @@
+import argparse
 import requests
 from bs4 import BeautifulSoup
 
-url = input('Enter URL: ')
-
 def main():
-    response = requests.get(url)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("url")
+    args = parser.parse_args()
+    
+    prefix = "https://"
+    if prefix not in args.url:
+        args.url = f"{prefix}{args.url}"
+
+    response = requests.get(args.url)
     
     if response.status_code == 200: # some input validation for inputted url
 
-        response = requests.get(url) 
+        response = requests.get(args.url) 
         html_page = response.content
         soup = BeautifulSoup(html_page, 'html.parser')
         html_text = soup.find_all(text=True)
