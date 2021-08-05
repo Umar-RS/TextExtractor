@@ -1,15 +1,42 @@
 import requests
 from bs4 import BeautifulSoup
 
-url = 'https://en.wikipedia.org/wiki/Quantum_mechanics' # Test url (change depending on the site you want to extract text from)
-res = requests.get(url) 
-html_page = res.content
-soup = BeautifulSoup(html_page, 'html.parser')
-html_text = soup.find_all(text=True)
+url = input('Enter URL: ')
 
-f = open("html_text.txt", "w", encoding="utf-8") # Creating html_text.txt file with appropriate encoding, (can change file name, if necessary))
+def main():
+    response = requests.get(url)
+    
+    if response.status_code == 200: # some input validation for inputted url
 
-for line in html_text:
-	f.write(line)
+        response = requests.get(url) 
+        html_page = response.content
+        soup = BeautifulSoup(html_page, 'html.parser')
+        html_text = soup.find_all(text=True)
 
-f.close() 
+        file_name = input("Save file as: ")
+        f = open(f"{file_name}.txt", "w", encoding="utf-8") # Creating html_text.txt file with appropriate encoding, (can change file name, if necessary))
+
+        output = ''
+        dont_include = [ # defines what tags in the html contain un-needed text
+            '[document]', # gets rid of the first line reading "html"
+            'head', 
+            'script', # ensures scripts are not extracted
+	        'style', # removes webpage styling
+	        'alttext', 
+            'annotation',
+            'mi', # removes symbolic constants
+            'mo', # removes mathematical operators
+        ]
+
+        for line in html_text:
+            if line.parent.name not in dont_include:
+                output += '{} '.format(line)
+
+        f.write(output)
+
+        f.close()
+
+    else:
+        print('Invalid URL')
+
+if __name__ == '__main__': main()
