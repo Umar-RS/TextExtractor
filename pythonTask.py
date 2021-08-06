@@ -9,7 +9,7 @@ def main():
     global html_text, dont_include, args # Global variables will be used in sub-functions too
 
     args = create_parser()
-    args.url = check_prefix()
+    args.url = check_prefix(args.url)
 
     response = requests.get(args.url) # makes a GET request to the inputted URL
     
@@ -40,12 +40,12 @@ def create_parser():# create parser and add the argument "url" which is parsed t
     args = parser.parse_args()
     return args
     
-def check_prefix():# if user fails to include the protocol prefix for the inputted url, it will be added
+def check_prefix(url):# if user fails to include the protocol prefix for the inputted url, it will be added
     prefix = "https://" 
-    if prefix not in args.url:
-        return f"{prefix}{args.url}"
+    if prefix not in url:
+        return f"{prefix}{url}"
     else:
-        return args.url
+        return url
 
 def output_file():
     output = ''
