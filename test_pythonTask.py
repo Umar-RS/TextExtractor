@@ -1,15 +1,19 @@
 import pythonTask
 import pathlib
 
-def test_create_parser():
-    args = pythonTask.create_parser()
-    assert len(vars(args)) == 1
-
 def test_check_prefix():
-    url = pythonTask.check_prefix(url="")
+    test = pythonTask.TextExtractor("www.google.com")
+    url = test.check_prefix()
     assert "https://" in url
 
-def test_create_and_output_file():
-    pythonTask.create_and_output_file(url="https://www.google.com")
+def test_get_content():
+    test = pythonTask.TextExtractor("https://www.google.com")
+    content = test.get_content()
+    assert content != ''
+
+def test_output_file():
+    test = pythonTask.TextExtractor("https://www.google.com")
+    test.get_content()
+    test.output_file()
     path = pathlib.Path('file.txt')
     assert path.exists() == True
