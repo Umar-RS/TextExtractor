@@ -1,0 +1,19 @@
+[
+    {
+        "question": "What's 5*5?",
+        "answer": "25"
+    },
+    {
+        "question": "What's 2+99?",
+        "answer": "101"
+    },
+    {
+        "question": "What's 64/8?",
+        "answer": "8"
+    },
+    {
+        "question": "What's 2^4?",
+        "answer": "16"
+    }
+    
+]

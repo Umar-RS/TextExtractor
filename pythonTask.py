@@ -51,13 +51,17 @@ def main():
     
     t_e.url = t_e.check_prefix()
 
-    response = requests.get(t_e.url) # makes a GET request to the inputted URL
-    
-    if response.status_code == 200: # some input validation for inputted url to make sure the status of the GET request is "OK" 
-        t_e.get_content()
+    try:
+        requests.get(t_e.url) # makes a GET request to the inputted URL
+    except:
+        print("Invalid URL")
     else:
-        print('Invalid URL')
 
-    t_e.output_file()
+        if requests.get(t_e.url).status_code == 200: # some input validation for inputted url to make sure the status of the GET request is "OK" 
+            t_e.get_content()
+        else:
+            print('Invalid URL')
+
+        t_e.output_file()
 
 if __name__ == '__main__': main()
