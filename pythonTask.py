@@ -1,3 +1,4 @@
+# Import libraries
 import requests
 import argparse
 from bs4 import BeautifulSoup
@@ -46,17 +47,17 @@ def main():
     parser.add_argument("--url") # create parser and add the argument "url" which is parsed through to the script
     args = parser.parse_args()
 
-    test = TextExtractor(args.url)
+    t_e = TextExtractor(args.url) # Istantiates class using the parsed argument as the parameter
     
-    test.url = test.check_prefix()
+    t_e.url = t_e.check_prefix()
 
-    response = requests.get(test.url) # makes a GET request to the inputted URL
+    response = requests.get(t_e.url) # makes a GET request to the inputted URL
     
     if response.status_code == 200: # some input validation for inputted url to make sure the status of the GET request is "OK" 
-        test.get_content()
+        t_e.get_content()
     else:
         print('Invalid URL')
 
-    test.output_file()
+    t_e.output_file()
 
 if __name__ == '__main__': main()
