@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Cover Template for Bootstrap</title>
+    <title>{{title}}</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/cover/">
 
@@ -22,7 +22,12 @@
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <main role="main" class="inner cover">
         <h1 class="cover-heading">{{title}}</h1>
-        <p class="lead">file.txt downloaded. To access your file, navigate to the directory in which this script was downloaded. Your text content will be in a file called file.txt. </p>
+        <p class="lead">{{message}}</p>
+        <form method="POST">
+          <p class="lead">
+              <a href="{{url_for('index')}}" class="btn btn-lg btn-secondary">Home</a>
+          </p>
+      </form>
       </main>
     </div>
 

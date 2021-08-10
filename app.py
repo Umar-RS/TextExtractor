@@ -8,6 +8,8 @@ app = Flask(__name__)
 
 def index():
     title = "TextExtractor"
+    fail = "Invalid URL. Please return and try again."
+    success="file.txt downloaded. To access your file, navigate to the directory in which this script was downloaded. Your text content will be in a file called file.txt."
     if request.method == 'GET':
         return render_template('index.html', title=title)
     else:
@@ -20,14 +22,14 @@ def index():
         try:
             requests.get(t_e.url) # makes a GET request to the inputted URL
         except:
-            print("Invalid URL")
+            return render_template('complete.html', title=title, message = fail)
         else:
 
             if requests.get(t_e.url).status_code == 200: # some input validation for inputted url to make sure the status of the GET request is "OK" 
                 t_e.get_content()
             else:
-                print('Invalid URL')
+                return render_template('complete.html', title=title, message = fail)
 
             t_e.output_file()
 
-        return render_template('complete.html')
+        return render_template('complete.html', title=title, message = success)
