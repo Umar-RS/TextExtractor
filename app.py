@@ -1,22 +1,33 @@
-from flask import Flask, render_template, abort
-from model import db
+from flask import Flask, render_template, request
+import requests
+from pythonTask import TextExtractor
 
 app = Flask(__name__)
 
-@app.route("/")
-def welcome():
-    return render_template(
-        "welcome.html",
-        cards=db,
-        message="Here's a message from the view!")
+@app.route('/', methods=['GET', 'POST'])
 
+def index():
+    title = "TextExtractor"
+    if request.method == 'GET':
+        return render_template('index.html', title=title)
+    else:
+        url = request.form.get('url', type=str)
 
+        t_e = TextExtractor(url) # Istantiates class using the parsed argument as the parameter
+    
+        t_e.url = t_e.check_prefix()
 
-@app.route("/card/<int:index>")
-def view(index):
+        try:
+            requests.get(t_e.url) # makes a GET request to the inputted URL
+        except:
+            print("Invalid URL")
+        else:
 
-    try:
-        card = db[index]
-        return render_template("card.html", card=card, index=index, max_index=len(db)-1)
-    except IndexError:
-        abort(404)
+            if requests.get(t_e.url).status_code == 200: # some input validation for inputted url to make sure the status of the GET request is "OK" 
+                t_e.get_content()
+            else:
+                print('Invalid URL')
+
+            t_e.output_file()
+
+        return render_template('complete.html')
