@@ -34,7 +34,9 @@ class TextExtractor:
         for line in html_text: # loops through the entire html_text to find all inner text that dont belong to the above "blacklisted" tags and then writes it to the file
             if line.parent.name not in dont_include:
                 self.output += '{} '.format(line)
-    
+        
+        return self.output
+        
     def output_file(self):
         # file_name = input("Save file as: ") # user can choose what to call their file and this is where the desired text content will be stored
         f = open("file.txt", "w", encoding="utf-8") 
@@ -64,4 +66,4 @@ def main():
 
         t_e.output_file()
 
-if __name__ == '__main__': main()
+# if __name__ == '__main__': main()

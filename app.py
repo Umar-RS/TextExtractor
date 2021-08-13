@@ -26,10 +26,14 @@ def index():
         else:
 
             if requests.get(t_e.url).status_code == 200: # some input validation for inputted url to make sure the status of the GET request is "OK" 
-                t_e.get_content()
+                output = t_e.get_content()
             else:
                 return render_template('complete.html', title=title, message = fail)
 
             t_e.output_file()
 
-        return render_template('complete.html', title=title, message = success)
+        return render_template('complete.html', title=title, message = success, output = output)
+
+
+if __name__ == '__main__':
+    app.run(debug=True,host='0.0.0.0')
